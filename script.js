@@ -92,8 +92,28 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
     `;
     
-    const blogPosts = JSON.parse(blogFeedDataJSON).map(data => new Post(data));
-    
+    // --- NEW: Helper functions for localStorage --- 
+    const savePosts = (posts) => {
+        localStorage.setItem('blogPosts', JSON.stringify(posts));
+    };
+
+    const loadPosts = () => {
+        const postsFromStorage = localStorage.getItem('blogPosts');
+        if (postsFromStorage) {
+            // If data exists, parse it and turn the plain objects back into Post instances
+            const plainObjects = JSON.parse(postsFromStorage);
+            return plainObjects.map(data => new Post(data));
+        } else {
+            // First time visit: use mock data, save it, then return it
+            const initialPosts = JSON.parse(blogFeedDataJSON).map(data => new Post(data));
+            savePosts(initialPosts);
+            return initialPosts;
+        }
+    };
+
+    // --- MODIFIED: Load posts from localStorage instead of directly from JSON ---
+    const blogPosts = loadPosts();
+
     let currentPostId = null;
 
     // --- DOM Elements ---
@@ -179,6 +199,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         post.addComment(usernameInput.value.trim(), commentTextInput.value.trim());
 
+        // --- Save all posts after adding a comment ---
+        savePosts(blogPosts);
+        
         renderComments(post.comments);
         renderFeed(); 
         
@@ -207,6 +230,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 3. Add the new post to the beginning of our data array
         blogPosts.unshift(newPost);
+
+        // --- Save all posts after adding a new one ---
+        savePosts(blogPosts);
         
         // 4. Re-render the feed to show the new post
         renderFeed();
