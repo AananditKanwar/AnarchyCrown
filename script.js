@@ -9,14 +9,14 @@ class Post {
         this.comments = postData.comments.map(commentData => new Comment(commentData));
     }
 
-    getCardHTML() {
+    getCardHtml() {
         return `
             <div class="card" data-post-id="${this.id}">
                 <h3>${this.title}</h3>
                 <p class="card-meta">By ${this.author} &bull; ${this.date}</p>
                 <p class="card-snippet">${this.snippet}</p>
                 <div class="card-read-more">
-                    Read More; (${this.comments.length} comments)
+                    Read More &rarr; (${this.comments.length} comments)
                 </div>
             </div>
         `;
@@ -50,8 +50,11 @@ class Comment {
     }
 }
 
-// Main app logic
+
+// --- MAIN APPLICATION LOGIC ---
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- MOCK JSON DATA FOR THE ENTIRE FEED ---
     const blogFeedDataJSON = `
     [
         {
@@ -88,28 +91,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ]
     `;
+    
+    const blogPosts = JSON.parse(blogFeedDataJSON).map(data => new Post(data));
+    
+    let currentPostId = null;
 
-    const blogPosts = JSOM.parse(blogFeedDataJSON).map(data => new Post(data));
-    let currentPostID = null;
-
-    // DOM Elements
+    // --- DOM Elements ---
     const feedView = document.getElementById('feed-view');
-    const postview = document.getElementById('post-view');
+    const postView = document.getElementById('post-view');
     const blogFeedContainer = document.getElementById('blog-feed-container');
     const blogPostContainer = document.getElementById('blog-post-container');
     const commentsList = document.getElementById('comments-list');
     const commentForm = document.getElementById('comment-form');
-    const commentUserInput = document.getElementById('comment-user');
-    const commentTextInput = document.getElementById('comment-text');
-    const backToFeedButton = document.getElementById('back-to-feed');
+    const backToFeedBtn = document.getElementById('back-to-feed');
 
-    // view toggling
-    function showFeedView() {
+    // --- VIEW MANAGEMENT ---
+    const showFeedView = () => {
         window.scrollTo(0, 0);
         feedView.classList.remove('hidden');
-        postview.classList.add('hidden');
-        currentPostID = null;
-    }
+        postView.classList.add('hidden');
+        currentPostId = null;
+    };
 
     const showPostView = (postId) => {
         window.scrollTo(0, 0);
@@ -119,10 +121,58 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPost(postId);
     };
 
-    // render function
+    // --- RENDER FUNCTIONS ---
     const renderFeed = () => {
-        blogFeedContainer.innerHTML = blogPosts.map(post => post.getCardHTML()).join('');
+        blogFeedContainer.innerHTML = blogPosts.map(post => post.getCardHtml()).join('');
         
-    }
-});
+        document.querySelectorAll('[data-post-id]').forEach(card => {
+            card.addEventListener('click', () => {
+                showPostView(card.dataset.postId);
+            });
+        });
+    };
 
+    const renderPost = (postId) => {
+        const post = blogPosts.find(p => p.id === postId);
+        if (!post) return;
+
+        blogPostContainer.innerHTML = `
+            <h2>${post.title}</h2>
+            <div class="post-meta">
+                <span>By ${post.author}</span><span>&bull;</span><span>${post.date}</span>
+            </div>
+            <div class="content-wrapper">${post.content}</div>
+        `;
+        renderComments(post.comments);
+    };
+
+    const renderComments = (comments) => {
+        if (comments.length === 0) {
+            commentsList.innerHTML = '<p>No comments yet. Be the first to start the discussion!</p>';
+            return;
+        }
+        commentsList.innerHTML = comments.map(comment => comment.getHtml()).join('');
+    };
+
+    // --- EVENT HANDLERS ---
+    const handleCommentSubmit = (event) => {
+        event.preventDefault();
+        const post = blogPosts.find(p => p.id === currentPostId);
+        if (!post) return;
+
+        const usernameInput = document.getElementById('username');
+        const commentTextInput = document.getElementById('comment-text');
+
+        post.addComment(usernameInput.value.trim(), commentTextInput.value.trim());
+
+        renderComments(post.comments);
+        renderFeed(); 
+        
+        commentForm.reset();
+    };
+
+    // --- INITIALIZATION ---
+    renderFeed();
+    backToFeedBtn.addEventListener('click', showFeedView);
+    commentForm.addEventListener('submit', handleCommentSubmit);
+});

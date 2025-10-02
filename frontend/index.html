@@ -12,45 +12,46 @@
 
 <body>
     <div class="container">
+        
         <header>
-            <h1>A Blog For History Nerds</h1>
-            <p>A discussion platform dedicated to the Wars Of The Roses</p>
+            <h1>The AnrachyCrown</h1>
+            <p>A modern discussion platform on the Wars Of The Roses</p>
         </header>
 
         <div id="app-container">
-
+            
             <main id="feed-view">
                 <div id="blog-feed-container">
-                    <!-- Blog cards will be loaded here -->
+                    <!-- Blog cards will be here -->
                 </div>
             </main>
 
             <div id="post-view" class="hidden">
                 <button id="back-to-feed" class="btn">
-                    Back to Feed
+                    &larr; Back to Feed
                 </button>
+                
+                <article id="blog-post-container" class="post-box prose"></article>
 
                 <section id="discussion-section" class="post-box">
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-                        <h2>Discussion</h2>
-                    </div>
-
+                    <h2>Discussion</h2>
+                    
                     <form id="comment-form">
                         <div class="form-group">
                             <input type="text" id="username" placeholder="Your Name" class="form-input" required>
                         </div>
                         <div class="form-group">
-                            <textarea id="comment-text" rows="4" placeholder="Join the discussion..."
-                                class="form-textarea" required></textarea>
+                            <textarea id="comment-text" rows="4" placeholder="Join the discussion..." class="form-textarea" required></textarea>
                         </div>
                         <button type="submit" class="btn">Post Comment</button>
                     </form>
                     <div id="comments-list"></div>
                 </section>
             </div>
-        </div>
-    </div>
 
+        </div>
+
+    </div>
 </body>
 
 </html>
