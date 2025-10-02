@@ -105,11 +105,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const commentForm = document.getElementById('comment-form');
     const backToFeedBtn = document.getElementById('back-to-feed');
 
+    const createView = document.getElementById('create-view');
+    const createNewPostBtn = document.getElementById('create-new-post-btn');
+    const createPostForm = document.getElementById('create-post-form');
+    const cancelPostBtn = document.getElementById('cancel-post-btn');
+
     // --- VIEW MANAGEMENT ---
     const showFeedView = () => {
         window.scrollTo(0, 0);
         feedView.classList.remove('hidden');
         postView.classList.add('hidden');
+        createView.classList.add('hidden');
         currentPostId = null;
     };
 
@@ -118,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPostId = postId;
         feedView.classList.add('hidden');
         postView.classList.remove('hidden');
+        createView.classList.add('hidden');
         renderPost(postId);
     };
 
@@ -130,6 +137,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 showPostView(card.dataset.postId);
             });
         });
+    };
+
+    const showCreateView = () => {
+        window.scrollTo(0, 0);
+        feedView.classList.add('hidden');
+        postView.classList.add('hidden');
+        createView.classList.remove('hidden');
     };
 
     const renderPost = (postId) => {
@@ -171,8 +185,42 @@ document.addEventListener('DOMContentLoaded', () => {
         commentForm.reset();
     };
 
+    // --- Event handler for creating a post ---
+    const handlePostSubmit = (event) => {
+        event.preventDefault();
+
+        // 1. Get data from the form
+        const postData = {
+            id: `post-${Date.now()}`, // Create a unique ID
+            title: document.getElementById('post-title').value.trim(),
+            author: document.getElementById('post-author').value.trim(),
+            snippet: document.getElementById('post-snippet').value.trim(),
+            content: document.getElementById('post-content').value.trim(),
+            date: new Date().toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            }),
+            comments: [] // New posts have no comments
+        };
+
+        // 2. Create a new Post instance
+        const newPost = new Post(postData);
+
+        // 3. Add the new post to the beginning of our data array
+        blogPosts.unshift(newPost);
+        
+        // 4. Re-render the feed to show the new post
+        renderFeed();
+
+        // 5. Clean up and switch views
+        createPostForm.reset();
+        showFeedView();
+    };
+
     // --- INITIALIZATION ---
     renderFeed();
     backToFeedBtn.addEventListener('click', showFeedView);
     commentForm.addEventListener('submit', handleCommentSubmit);
+    createNewPostBtn.addEventListener('click', showCreateView);
+    cancelPostBtn.addEventListener('click', showFeedView);
+    createPostForm.addEventListener('submit', handlePostSubmit);
 });
