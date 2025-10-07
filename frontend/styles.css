@@ -1,227 +1,272 @@
-/* --- General & Body Styles --- */
+/* --- Foundation & Global Styles (from new CSS) --- */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Poppins:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --mainred-color: #d41c41;
+  --red-li-color: #dc143cc0;
+  --accent-color: #f0c79f;
+  --box-shadow: 2px 2px 18px rgb(14 52 54 / 15%);
+  --text-color-light: #fff;
+  --text-color-dark: #1f2937;
+  --bg-color-dark: rgba(0, 0, 0, 0.863);
+  --input-bg: #f3f4f6;
+  --border-color: #d1d5db;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Bricolage Grotesque", sans-serif;
+}
+
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f3f4f6;
-    color: #1f2937;
-    margin: 0;
+  background-color: var(--bg-color-dark);
+  /* NOTE: You need to provide your own image path for this to work */
+  background-color: rgb(247, 244, 242);
+  background-size: cover;
+  color: var(--text-color-light);
+  margin: 0;
 }
 
 /* --- Layout & Container --- */
 .container {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* --- Header (Adapted with new fonts/colors) --- */
+/* --- New Sticky Header --- */
+.site-header {
+    background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent dark background */
+    backdrop-filter: blur(10px); /* Modern glass effect */
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem 1.5rem;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.site-header .btn {
+    margin-bottom: 0;
+}
+
+.header-container {
     max-width: 1024px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-/* --- Header --- */
-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-header h1 {
-    font-size: 2.5rem;
+.site-title {
+    font-size: 1.5rem;
     font-weight: 700;
-    color: #111827;
-    margin: 0;
+    color: var(--text-color-dark); /* Uses the gold accent color */
+    text-decoration: none;
+    transition: color 0.3s;
 }
 
-header p {
-    color: #4b5563;
-    margin-top: 0.5rem;
+.site-title:hover {
+    color: var(--text-color-light);
 }
 
-header .btn {
-    margin-top: 1rem;
+
+/* --- New Page Introduction Header --- */
+.page-intro {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-top: 2rem; /* Adds space below the sticky header */
+}
+
+.page-intro p {
+    color: var(--text-color-light);
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    font-family: "Poppins", sans-serif;
 }
 
 /* --- Blog Feed Grid --- */
 #blog-feed-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
+  display: grid;
+  /* A larger gap looks better in a single-column feed */
+  gap: 2.5rem; 
 }
 
-@media (min-width: 768px) {
-    #blog-feed-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-@media (min-width: 1024px) {
-    #blog-feed-container {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-/* --- Card Styling --- */
+/* --- Card Styling (Re-styled based on new design) --- */
 .card {
-    background-color: white;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  background-color: white;
+  color: var(--text-color-dark); /* Dark text on light card */
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: var(--box-shadow);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
+
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
+
 .card h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: #111827;
 }
+
 .card .card-meta {
-    font-size: 0.875rem;
-    color: #6b7280;
-    margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+  font-family: "Poppins", sans-serif;
 }
+
 .card .card-snippet {
-    color: #374151;
-    margin-bottom: 1rem;
+  color: #374151;
+  margin-bottom: 1rem;
+  font-family: "Poppins", sans-serif;
 }
+
 .card .card-read-more {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #4f46e5;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgb(128, 128, 128);
 }
+
 .card .card-read-more:hover {
-    color: #3730a3;
+  color: var(--red-li-color);
 }
 
-/* --- Single Post View --- */
+
+/* --- Single Post & Form View (Re-styled) --- */
 .post-box {
-        background-color: white;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  background-color: white;
+  color: var(--text-color-dark); /* Dark text for readability */
+  padding: 2.5rem;
+  border-radius: 0.75rem;
+  box-shadow: var(--box-shadow);
 }
+
 #discussion-section {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
-/* --- Article Content Styling (Prose) --- */
 .prose h2 {
-    font-size: 1.875rem;
-    font-weight: 700;
-    margin: 0 0 0.5rem 0;
-}
-.prose .post-meta {
-    display: flex;
-    align-items: center;
-    font-size: 0.875rem;
-    color: #6b7280;
-    margin-bottom: 1.5rem;
-}
-.prose .post-meta span {
-    margin: 0 0.5rem;
-}
-.prose .content-wrapper img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 0.5rem;
-    margin: 1.5rem 0;
-}
-.prose .content-wrapper h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-}
-.prose .content-wrapper p {
-    line-height: 1.6;
-    margin-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
 }
 
-/* --- Button Styling --- */
+.prose .post-meta {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.prose .content-wrapper p {
+  line-height: 1.6;
+  font-family: "Poppins", sans-serif;
+}
+
+/* --- Button Styling (Re-styled based on new design) --- */
 .btn {
-    display: inline-block;
-    margin-bottom: 1.5rem;
-    padding: 0.75rem 1.25rem;
-    background-color: #4f46e5;
-    color: white;
-    font-weight: 600;
-    border-radius: 0.5rem;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    position: relative;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: rgb(240, 199, 159);
+  color: var(--text-color-light);
+  font-weight: 600;
+  border-radius: 2.5rem; /* Rounded button style */
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
+
 .btn:hover {
-    background-color: #4338ca;
-}
-.btn:disabled {
-    background-color: #a5b4fc;
-    cursor: not-allowed;
+  background-color: var(--red-li-color);
+  box-shadow: 0 4px 10px rgba(212, 28, 65, 0.3);
 }
 
 .btn-secondary {
-    background-color: #6b7280;
-}
-.btn-secondary:hover {
     background-color: #4b5563;
 }
-
-/* --- Form Styling --- */
-#comment-form {
-    margin-bottom: 2rem;
+.btn-secondary:hover {
+    background-color: #374151;
 }
+
+/* --- Form Styling (Re-styled based on new design) --- */
 .form-group {
-    margin-bottom: 1rem;
-}
-.form-input, .form-textarea {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
-    box-sizing: border-box; 
-}
-.form-input:focus, .form-textarea:focus {
-    outline: none;
-    border-color: #4f46e5;
-    box-shadow: 0 0 0 2px #c7d2fe;
-}
-#comment-form button {
-    margin-top: 1rem;
-    padding: 0.75rem 1.5rem;
+  margin-bottom: 1rem;
 }
 
-/* --- Comments Section --- */
+.form-input, .form-textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  background-color: var(--input-bg);
+  color: var(--text-color-dark);
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box; 
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-input:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--mainred-color);
+  box-shadow: 0 0 0 3px rgba(212, 28, 65, 0.15);
+}
+
+/* --- Comments Section (Re-styled) --- */
 #discussion-section h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
 }
+
 .comment {
-    display: flex;
-    gap: 1rem;
+  display: flex;
+  gap: 1rem;
 }
+
 .comment-avatar {
-    flex-shrink: 0;
-    width: 2.5rem;
-    height: 2.5rem;
-    background-color: #e0e7ff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    color: #4f46e5;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: var(--accent-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--text-color-dark);
 }
+
 .comment-user {
-    font-weight: 600;
-    color: #111827;
+  font-weight: 600;
+  color: #111827;
 }
+
 .comment-text {
-    color: #4b5563;
+  color: #4b5563;
+  font-family: "Poppins", sans-serif;
 }
+
 #comments-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 /* --- Utility --- */
 .hidden {
-    display: none;
+  display: none;
 }
