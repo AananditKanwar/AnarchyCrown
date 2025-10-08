@@ -101,7 +101,6 @@ body {
 .card {
   background-color: white;
   color: var(--text-color-dark); /* Dark text on light card */
-  padding: 1.5rem;
   border-radius: 0.75rem;
   box-shadow: var(--box-shadow);
   cursor: pointer;
@@ -223,6 +222,30 @@ body {
   outline: none;
   border-color: var(--mainred-color);
   box-shadow: 0 0 0 3px rgba(212, 28, 65, 0.15);
+}
+
+/* Image on the post card */
+.card-image {
+    width: 100%;
+    height: 400px; /* Or any fixed height you prefer */
+    object-fit: cover; /* Prevents image stretching */
+    border-radius: 0.75rem 0.75rem 0 0; /* Match top corners of the card */
+    object-position: center top;
+}
+
+/* Add padding to the card's text content */
+.card-content {
+    padding: 1.5rem;
+}
+
+/* Image on the main post page */
+.post-image {
+    width: 100%;
+    height: auto;
+    max-height: 800px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    margin-bottom: 2rem;
 }
 
 /* --- Comments Section (Re-styled) --- */
