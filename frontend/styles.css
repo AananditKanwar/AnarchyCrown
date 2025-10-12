@@ -72,7 +72,7 @@ body {
 }
 
 .site-title:hover {
-    color: var(--text-color-light);
+    color: var(--accent-color);
 }
 
 

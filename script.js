@@ -322,6 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
             author: document.getElementById('post-author').value.trim(),
             snippet: document.getElementById('post-snippet').value.trim(),
             content: document.getElementById('post-content').value.trim(),
+            imageUrl: document.getElementById('post-image-url').value.trim(),
             date: new Date().toLocaleDateString('en-US', {
                 year: 'numeric', month: 'long', day: 'numeric'
             }),
