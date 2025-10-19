@@ -332,3 +332,73 @@ body {
 .comment-body .btn-delete-comment:hover {
     text-decoration: underline;
 }
+
+/* --- Media Queries for Responsiveness --- */
+
+/* Tablet styles (screens less than 768px wide) */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem 1rem;
+    }
+
+    .post-box {
+        padding: 1.5rem;
+    }
+
+    .prose h2 {
+        font-size: 1.75rem;
+    }
+
+    .card-image {
+        height: 250px;
+    }
+
+    .site-title {
+        font-size: 1.25rem;
+    }
+}
+
+/* Smartphone styles (screens less than 480px wide) */
+@media (max-width: 480px) {
+    .container {
+        padding: 1rem 0.75rem;
+    }
+
+    .site-header {
+        padding: 1rem;
+    }
+    
+    .site-title {
+        font-size: 1.1rem;
+    }
+
+    /* Hide button text, show icon (e.g., plus sign) */
+    .site-header .btn {
+        font-size: 0; /* Hide text */
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        position: relative;
+    }
+
+    .site-header .btn::before {
+        content: '+';
+        font-size: 1.5rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .post-box {
+        padding: 1.25rem;
+    }
+
+    .prose h2 {
+        font-size: 1.5rem;
+    }
+
+    .card-image {
+        height: 200px;
+    }
+}
