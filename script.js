@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- !! IMPORTANT: SET YOUR ADMIN KEY HERE !! ---
     // This key will be hidden from GitHub because script.js is in .gitignore
-    const ADMIN_KEY = 'wars-of-the-roses-1455'; 
+    const ADMIN_KEY = 'd2Fycy1vZi10aGUtcm9zZXMtMTQ1NQ==';; 
 
     // --- STATE VARIABLES ---
     let blogPosts = [];
@@ -377,17 +377,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // If no session, prompt the user
         const mode = prompt('Welcome! Are you a (1) User or (2) Admin?', '1');
         if (mode === '2') {
-            const key = prompt('Please enter the Admin Key:');
-            if (key === ADMIN_KEY) {
+            const keyEntered = prompt('Please enter the Admin Key:');
+
+            // **MODIFIED:** Encode the entered key and compare
+            if (keyEntered && btoa(keyEntered) === ADMIN_KEY) {
                 alert('Admin Mode Activated.');
                 isAdmin = true;
-                sessionStorage.setItem('isAdmin', 'true'); // Save for session
+                sessionStorage.setItem('isAdmin', 'true');
             } else {
                 alert('Incorrect key. Entering User Mode.');
                 isAdmin = false;
+                sessionStorage.removeItem('isAdmin');
             }
         } else {
             isAdmin = false;
+            sessionStorage.removeItem('isAdmin');
         }
         initializeApp();
     }
