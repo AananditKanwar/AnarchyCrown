@@ -293,3 +293,42 @@ body {
 .hidden {
   display: none;
 }
+
+/* --- Admin Button Styles --- */
+
+.card-actions {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.card-actions .btn {
+    margin-bottom: 0;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+/* Edit button styling */
+.btn-edit-post {
+    background-color: #6b7280; /* A neutral gray */
+}
+.btn-edit-post:hover {
+    background-color: #4b5563;
+}
+
+/* Comment delete button */
+.comment-body .btn-delete-comment {
+    background: none;
+    border: none;
+    color: var(--mainred-color);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0;
+    margin-top: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.comment-body .btn-delete-comment:hover {
+    text-decoration: underline;
+}
