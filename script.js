@@ -149,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const createNewPostBtn = document.getElementById('create-new-post-btn');
     const createPostForm = document.getElementById('create-post-form');
     const cancelPostBtn = document.getElementById('cancel-post-btn');
+    const adminLogoutBtn = document.getElementById('admin-logout-btn');
 
     // --- VIEW MANAGEMENT ---
     const showFeedView = () => {
@@ -347,6 +348,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // --- Logout Function ---
+    const logoutAdmin = () => {
+        isAdmin = false;
+        sessionStorage.removeItem('isAdmin'); // Clear the session flag
+        adminLogoutBtn.classList.add('hidden'); // Hide the button
+        alert('Admin mode deactivated. Reloading page...');
+        window.location.reload(); // **Reload the page**
+    };
+
     // --- INITIALIZATION ---
     const initializeApp = () => {
         // All event listeners that don't depend on admin status
@@ -354,7 +364,8 @@ document.addEventListener('DOMContentLoaded', () => {
         commentForm.addEventListener('submit', handleCommentSubmit);
         cancelPostBtn.addEventListener('click', showFeedView);
         createPostForm.addEventListener('submit', handlePostSubmit);
-        
+        adminLogoutBtn.addEventListener('click', logoutAdmin);
+
         createNewPostBtn.addEventListener('click', () => {
             // Reset state in case we were editing
             editingPostId = null; 
@@ -364,6 +375,13 @@ document.addEventListener('DOMContentLoaded', () => {
             showCreateView();
         });
         
+        // Show/Hide Logout Button based on admin status
+        if(isAdmin) {
+            adminLogoutBtn.classList.remove('hidden');
+        } else {
+            adminLogoutBtn.classList.add('hidden');
+        }
+
         // Render the feed based on admin status
         renderFeed();
     };

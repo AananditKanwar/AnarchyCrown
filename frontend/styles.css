@@ -359,7 +359,7 @@ body {
 }
 
 /* Smartphone styles (screens less than 480px wide) */
-@media (max-width: 480px) {
+@media (max-width: 550px) {
     .container {
         padding: 1rem 0.75rem;
     }
@@ -401,4 +401,10 @@ body {
     .card-image {
         height: 200px;
     }
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Space between buttons */
 }
