@@ -7,11 +7,11 @@ class Post {
         this.imageUrl = postData.imageUrl; 
         this.snippet = postData.snippet;
         this.content = postData.content;
-        // MODIFIED: Ensure comments are created as Comment instances
+        // Ensures comments are created as Comment instances
         this.comments = postData.comments.map(commentData => new Comment(commentData));
     }
 
-    // MODIFIED: Now accepts 'isAdmin' to conditionally show buttons
+    // Accepts 'isAdmin' to conditionally show buttons
     getCardHtml(isAdmin) {
         return `
             <div class="card" data-post-id="${this.id}">
@@ -35,7 +35,7 @@ class Post {
     }
 
     addComment(user, text) {
-        // MODIFIED: Add a unique ID to each comment
+        // Add a unique ID to each comment
         const newComment = new Comment({ id: `comment-${Date.now()}`, user, text });
         this.comments.push(newComment);
     }
@@ -43,13 +43,13 @@ class Post {
 
 class Comment {
     constructor(commentData) {
-        // MODIFIED: Store the comment ID
-        this.id = commentData.id || `comment-legacy-${Math.random()}`; // Handle old comments
+        // Store the comment ID
+        this.id = commentData.id; 
         this.user = commentData.user;
         this.text = commentData.text;
     }
 
-    // MODIFIED: Now accepts 'isAdmin' and 'postId'
+    // Now accepts 'isAdmin' and 'postId'
     getHtml(isAdmin, postId) {
         const initial = this.user.charAt(0).toUpperCase();
         return `
@@ -220,8 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ]
     `;
-        // NOTE: Make sure to paste your *full* mock data list back in here.
-        // I also added "id" fields to the comments in the mock data.
+       // added "id" fields to the comments in the mock data.
 
         const postsFromStorage = localStorage.getItem('blogPosts');
         if (postsFromStorage) {
@@ -284,14 +283,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Main card click listener
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('click', (e) => {
-                // IMPORTANT: Don't open post if admin button was clicked
+                // Don't open post if admin button was clicked
                 if (!e.target.closest('.card-actions')) {
                     showPostView(card.dataset.postId);
                 }
             });
         });
 
-        // NEW: Add listeners for admin buttons
+        // Event Listeners for admin buttons
         if (isAdmin) {
             document.querySelectorAll('.btn-edit-post').forEach(button => {
                 button.addEventListener('click', (e) => {
@@ -333,7 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Pass 'isAdmin' and 'postId' to getHtml
         commentsList.innerHTML = comments.map(comment => comment.getHtml(isAdmin, postId)).join('');
 
-        // NEW: Add listeners for admin delete comment buttons
+        // Event listeners for admin delete comment buttons
         if (isAdmin) {
             document.querySelectorAll('.btn-delete-comment').forEach(button => {
                 button.addEventListener('click', (e) => {
@@ -355,18 +354,18 @@ document.addEventListener('DOMContentLoaded', () => {
         post.addComment(usernameInput.value.trim(), commentTextInput.value.trim());
 
         savePosts(blogPosts);
-        renderComments(post.comments, post.id); // Pass post.id
+        renderComments(post.comments, post.id); 
         renderFeed(); 
         
         commentForm.reset();
     };
 
-    // MODIFIED: Now handles BOTH Create and Update
+    // Now handles BOTH Create and Update
     const handlePostSubmit = (event) => {
         event.preventDefault();
 
         if (editingPostId) {
-            // --- UPDATE LOGIC ---
+            
             const post = blogPosts.find(p => p.id === editingPostId);
             post.title = document.getElementById('post-title').value.trim();
             post.author = document.getElementById('post-author').value.trim();
@@ -374,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
             post.content = document.getElementById('post-content').value.trim();
             post.imageUrl = document.getElementById('post-image-url').value.trim();
         } else {
-            // --- CREATE LOGIC (your existing code) ---
+            
             const postData = {
                 id: `post-${Date.now()}`,
                 title: document.getElementById('post-title').value.trim(),
@@ -400,7 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#create-post-form button[type="submit"]').textContent = 'Publish Post';
     };
 
-    // --- NEW: Admin CRUD Functions ---
+    // --- Admin CRUD Functions ---
     const handleEditPost = (postId) => {
         const post = blogPosts.find(p => p.id === postId);
         if (!post) return;
@@ -486,8 +485,8 @@ document.addEventListener('DOMContentLoaded', () => {
         renderFeed();
     };
 
-    // --- NEW: Admin Login Prompt ---
-    // Check if admin status is already in the session (e.g., from a refresh)
+    // --- Admin Login Prompt ---
+    // Check if admin status is already in the session 
     if (sessionStorage.getItem('isAdmin') === 'true') {
         isAdmin = true;
         initializeApp();
@@ -496,8 +495,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const mode = prompt('Welcome! Are you a (1) User or (2) Admin?', '1');
         if (mode === '2') {
             const keyEntered = prompt('Please enter the Admin Key:');
-
-            // **MODIFIED:** Encode the entered key and compare
             if (keyEntered && btoa(keyEntered) === ADMIN_KEY) {
                 alert('Admin Mode Activated.');
                 isAdmin = true;
